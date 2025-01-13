@@ -9,6 +9,7 @@ public class Hunter {
     private String hunterName;
     private String[] kit;
     private int gold;
+    private boolean testMode;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -23,6 +24,12 @@ public class Hunter {
     }
 
     //Accessors
+    public void setTestMode(boolean test){
+        gold = 100;
+        String [] newKit = {"Water", "Rope", "Machete", "Horse", "Boat"};
+        kit = newKit;
+    }
+
     public String getHunterName() {
         return hunterName;
     }
