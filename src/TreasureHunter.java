@@ -101,12 +101,12 @@ public class TreasureHunter {
             System.out.println("***");
             System.out.println(hunter.infoString());
             System.out.println(currentTown.infoString());
-            System.out.println("(B)uy something at the shop.");
-            System.out.println("(S)ell something at the shop.");
-            System.out.println("(E)xplore surrounding terrain.");
-            System.out.println("(M)ove on to a different town.");
-            System.out.println("(L)ook for trouble!");
-            System.out.println("Give up the hunt and e(X)it.");
+            System.out.println(Colors.PURPLE + "(B)uy something at the shop.");
+            System.out.println(Colors.GREEN +  "(S)ell something at the shop.");
+            System.out.println(Colors.YELLOW + "(E)xplore surrounding terrain.");
+            System.out.println(Colors.CYAN + "(M)ove on to a different town.");
+            System.out.println(Colors.RED + "(L)ook for trouble!");
+            System.out.println(Colors.RESET + "Give up the hunt and e(X)it.");
             System.out.println();
             System.out.print("What's your next move? ");
             choice = SCANNER.nextLine().toLowerCase();
