@@ -13,6 +13,7 @@ public class Shop {
     private static final int MACHETE_COST = 6;
     private static final int HORSE_COST = 12;
     private static final int BOAT_COST = 20;
+    private static final int BOOTS_COST = 16;
 
     // static variables
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -86,7 +87,9 @@ public class Shop {
         str += Colors.RESET + "Rope: " + Colors.YELLOW +  ROPE_COST + " gold\n";
         str += Colors.RESET + "Machete: " + Colors.YELLOW + MACHETE_COST + " gold\n";
         str += Colors.RESET + "Horse: " + Colors.YELLOW + HORSE_COST + " gold\n";
-        str += Colors.RESET + "Boat: " + Colors.YELLOW + BOAT_COST + " gold\n" + Colors.RESET;
+        str += Colors.RESET + "Boat: " + Colors.YELLOW + BOAT_COST + " gold\n";
+        str += Colors.RESET + "Boots: " + Colors.YELLOW + BOOTS_COST + " gold\n"
+        + Colors.RESET;
         return str;
     }
 

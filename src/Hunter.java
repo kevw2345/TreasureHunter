@@ -19,15 +19,14 @@ public class Hunter {
      */
     public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
-        kit = new String[5]; // only 5 possible items can be stored in kit
+        kit = new String[6]; // only 6 possible items can be stored in kit
         gold = startingGold;
     }
 
     //Accessors
     public void setTestMode(boolean test){
         gold = 100;
-        String [] newKit = {"Water", "Rope", "Machete", "Horse", "Boat"};
-        kit = newKit;
+        kit = new String[]{"Water", "Rope", "Machete", "Horse", "Boat","Boots"};
     }
 
     public String getHunterName() {
@@ -117,7 +116,7 @@ public class Hunter {
      */
     public boolean hasItemInKit(String item) {
         for (String tmpItem : kit) {
-            if (item.equals(tmpItem)) {
+            if (item.equals(tmpItem.toLowerCase())) {
                 // early return
                 return true;
             }
