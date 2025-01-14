@@ -16,6 +16,7 @@ public class TreasureHunter {
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private static boolean run = true;
 
     /**
      * Constructs the Treasure Hunter game.
@@ -26,6 +27,8 @@ public class TreasureHunter {
         hunter = null;
         hardMode = false;
     }
+
+    public static void endRun(){run = false;}
 
     /**
      * Starts the game; this is the only public method
@@ -46,7 +49,7 @@ public class TreasureHunter {
         String name = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
-        hunter = new Hunter(name, 20);
+        hunter = new Hunter(name, 0);
 
         System.out.print("Hard mode? (y/n): ");
         String hard = SCANNER.nextLine().toLowerCase();
@@ -96,6 +99,10 @@ public class TreasureHunter {
     private void showMenu() {
         String choice = "";
         while (!choice.equals("x")) {
+            if(!run){
+                System.out.println(Colors.RED + "\nYou didn't have enough gold to pay off your losses, and you lose the game.");
+                break;
+            }
             System.out.println();
             System.out.println(currentTown.getLatestNews());
             System.out.println("***");
