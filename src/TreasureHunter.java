@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 /**
@@ -100,7 +101,15 @@ public class TreasureHunter {
         String choice = "";
         while (!choice.equals("x")) {
             if(!run){
-                System.out.println(Colors.RED + "\nYou didn't have enough gold to pay off your losses, and you lose the game.");
+                if (hunter.treasuresFull()) {
+                    System.out.println("Wow, you've found every treasure in this realm!");
+                    System.out.println();
+                    System.out.println(Colors.CYAN + "You return home, riches and treasure in hand. You leave your trusty shovel by the door, curling up into your chair by the fireplace.");
+                    System.out.println("But one day, perhaps more treasures will arise, waiting to be found by a brave adventurer...");
+                    System.out.println(Colors.WHITE + "\n\nTHE END" + Colors.RESET);
+                } else {
+                    System.out.println(Colors.RED + "\nYou didn't have enough gold to pay off your losses, and you lose the game.");
+                }
                 break;
             }
             System.out.println();
@@ -141,6 +150,9 @@ public class TreasureHunter {
             currentTown.lookForTrouble();
         } else if (choice.equals("h")) {
             currentTown.huntForTreasure();
+            if (hunter.treasuresFull()) {
+                endRun(); //the player gas won
+            }
         } else if (choice.equals("x")) {
             System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
         } else {

@@ -193,6 +193,18 @@ public class Hunter {
         }
         return ret;
     }
+    /**
+     * Used to check for the win condition.
+     * @return true if treasures has no null elements.
+     * */
+    public boolean treasuresFull() {
+            for (String string : treasures) {
+                if (string == null) {
+                    return false;
+                }
+            }
+            return true;
+    }
 
     /**
      * Searches kit Array for the index of the specified value.
