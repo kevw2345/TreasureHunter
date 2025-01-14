@@ -10,6 +10,7 @@ public class Hunter {
     private String[] kit;
     private int gold;
     private boolean testMode;
+    private String[] treasures;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -20,6 +21,7 @@ public class Hunter {
     public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
         kit = new String[6]; // only 6 possible items can be stored in kit
+        treasures = new String[3]; //only 3 treasures can be stored
         gold = startingGold;
     }
 
@@ -141,6 +143,25 @@ public class Hunter {
         }
         return printableKit + Colors.RESET;
     }
+    /**
+     * Adds treasure to the treasure array if there is at least one null
+     * item in the array and it is not already in the array
+     *
+     * @param treasure treasure to be added
+     * @return 0 if treasure was added, 1 if treasure is already in treasures, 2 if there is not enough space in treasures
+     * */
+    public int addTreasure(String treasure) {
+        for (int i = 0; i < treasures.length; i++) {
+            if (treasures[i] == null) {
+                treasures[i] = treasure;
+                return 0;
+            } else if (treasures[i].equals(treasure)) {
+                return 1; //treasure is already in treasures
+            }
+        }
+        //no null spaces were found in the array
+        return 2;
+    }
 
     /**
      * @return A string representation of the hunter.
@@ -150,7 +171,24 @@ public class Hunter {
         if (!kitIsEmpty()) {
             str += " and " + getInventory();
         }
+        str += "\n" + printCollectedTreasures();
         return str;
+    }
+    /**
+     * @return A string representing the player's collectd treasures
+     * */
+    private String printCollectedTreasures() {
+        String ret = "Treasures found: ";
+        if (treasuresIsEmpty()) {
+            ret += "none";
+        } else {
+            for (String treasure : treasures) {
+                if (treasure != null) {
+                    ret += "a " + treasure + " ";
+                }
+            }
+        }
+        return ret;
     }
 
     /**
@@ -177,6 +215,19 @@ public class Hunter {
      */
     private boolean kitIsEmpty() {
         for (String string : kit) {
+            if (string != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if the treasures are empty.
+     *
+     * @return true if the treasures array is filled with null elements only*/
+    private boolean treasuresIsEmpty() {
+        for (String string : treasures) {
             if (string != null) {
                 return false;
             }

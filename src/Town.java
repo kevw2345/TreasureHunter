@@ -5,12 +5,16 @@
  */
 
 public class Town {
+    // static variable representing the different treasures the player can collect
+    private static String[] townTreasureList = {"crown", "trophy", "gem", "dust"};
     // instance variables
     private Hunter hunter;
     private Shop shop;
     private Terrain terrain;
     private String printMessage;
     private boolean toughTown;
+    private String treasure;
+    private boolean isSearched;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -29,6 +33,13 @@ public class Town {
 
         // higher toughness = more likely to be a tough town
         toughTown = (Math.random() < toughness);
+
+        // gets a random treasure from townTreasureList and assigns it to treasure
+        int randIndex = (int)(Math.random() * 4);
+        treasure = townTreasureList[randIndex];
+
+        //town starts unsearched
+        isSearched = false;
     }
 
     public Terrain getTerrain() {
@@ -157,5 +168,41 @@ public class Town {
     private boolean checkItemBreak() {
         double rand = Math.random();
         return (rand < 0.5);
+    }
+    /**
+     * Allows the player to hunt for treasure.
+     * Updates hunter's treasure array if they found a new item and there is a null element in their
+     * treasure array.
+     * Also updates the "searched" instance variable
+     *
+     * @return true if the player's treasure array was updated, false otherwise.
+     * */
+    public boolean huntForTreasure() {
+        if (isSearched == true) { //return early if town was already searched
+            System.out.println("You have already searched this town for treasure.");
+            return false;
+        }
+        isSearched = true;
+        System.out.println("You found a " + Colors.YELLOW + treasure + Colors.RESET +"!");
+        //if the treasure is dust, don't add it to the player's treasures
+        if (treasure.equals("dust")) {
+            System.out.println("But you don't need that...");
+            return false;
+        } else {
+            int status = hunter.addTreasure(treasure);
+            switch (status) {
+                case 0:
+                    System.out.println("What a neat thing to find!");
+                    return true;
+                case 1: //item already in inventory
+                    System.out.println("But you already have one.");
+                    return false;
+                case 2:
+                    System.out.println("But there's not enough space to keep that.");
+                    return false;
+            }
+        }
+        //failsafe
+        return false;
     }
 }
