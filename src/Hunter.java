@@ -24,6 +24,9 @@ public class Hunter {
     }
 
     //Accessors
+
+    public int getGold(){return gold;}
+
     public void setTestMode(boolean test){
         gold = 100;
         kit = new String[]{"Water", "Rope", "Machete", "Horse", "Boat","Boots"};
@@ -116,7 +119,7 @@ public class Hunter {
      */
     public boolean hasItemInKit(String item) {
         for (String tmpItem : kit) {
-            if (item.equals(tmpItem.toLowerCase())) {
+            if (tmpItem!=null&&item.equals(tmpItem.toLowerCase())) {
                 // early return
                 return true;
             }
