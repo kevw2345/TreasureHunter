@@ -15,10 +15,10 @@ public class TreasureHunter {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     // instance variables
-    Color gold = new Color(255, 215, 0);
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private boolean samuraiMode;
     private static boolean run = true;
 
     /**
@@ -29,6 +29,7 @@ public class TreasureHunter {
         currentTown = null;
         hunter = null;
         hardMode = false;
+        samuraiMode = false;
     }
 
     public static void endRun(){run = false;}
@@ -50,6 +51,7 @@ public class TreasureHunter {
         System.out.println("Going hunting for the big treasure, eh?");
         System.out.print("What's your name, Hunter? ");
         String name = SCANNER.nextLine().toLowerCase();
+        int inventoryCapacity = 7; //by default, inventory capacity should be 7
 
         // set hunter instance variable
         hunter = new Hunter(name, 20);
@@ -58,8 +60,11 @@ public class TreasureHunter {
         String hard = SCANNER.nextLine().toLowerCase();
         if (hard.equals("y")) {
             hardMode = true;
-        }else if(hard.equals("test")){
+        } else if(hard.equals("test")){
             hunter.setTestMode(true);
+        } else if (hard.equals("s")) {
+            inventoryCapacity = 8; //+1 inventory capacity for the sword
+            System.out.println("\n" + Colors.RED + "Samurai mode has been activated...");
         }
     }
 
@@ -67,11 +72,11 @@ public class TreasureHunter {
      * Creates a new town and adds the Hunter to it.
      */
     private void enterTown() {
-        double markdown = 0.25;
+        double markdown = 0.50;
         double toughness = 0.4;
         if (hardMode) {
             // in hard mode, you get less money back when you sell items
-            markdown = 0.5;
+            markdown = 0.25;
 
             // and the town is "tougher"
             toughness = 0.75;

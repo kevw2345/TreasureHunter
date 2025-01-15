@@ -11,6 +11,7 @@ public class Hunter {
     private int gold;
     private boolean testMode;
     private String[] treasures;
+    private boolean samurai;
 
     /**
      * The base constructor of a Hunter assigns the name to the hunter and an empty kit.
@@ -24,6 +25,21 @@ public class Hunter {
         treasures = new String[3]; //only 3 treasures can be stored
         gold = startingGold;
     }
+
+    /**
+     * Similar to the base constructor, but allows a custom inventory capacity to be defined.
+     *
+     * @param hunterName The hunter's name.
+     * @param startingGold The gold the hunter starts with.
+     * @param inventorySpace The max amount of items that the player can hold.
+     */
+    public Hunter(String hunterName, int startingGold, int inventorySpace) {
+        this.hunterName = hunterName;
+        kit = new String[inventorySpace]; // only [inventorySpace] possible items can be stored in kit
+        treasures = new String[3]; //only 3 treasures can be stored
+        gold = startingGold;
+    }
+
 
     //Accessors
 
