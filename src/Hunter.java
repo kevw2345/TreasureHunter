@@ -20,7 +20,7 @@ public class Hunter {
      */
     public Hunter(String hunterName, int startingGold) {
         this.hunterName = hunterName;
-        kit = new String[6]; // only 6 possible items can be stored in kit
+        kit = new String[7]; // only 7 possible items can be stored in kit
         treasures = new String[3]; //only 3 treasures can be stored
         gold = startingGold;
     }
@@ -31,7 +31,7 @@ public class Hunter {
 
     public void setTestMode(boolean test){
         gold = 100;
-        kit = new String[]{"Water", "Rope", "Machete", "Horse", "Boat","Boots"};
+        kit = new String[]{"Water", "Rope", "Machete", "Horse", "Boat","Boots","Shovel"};
     }
 
     public String getHunterName() {
@@ -215,7 +215,6 @@ public class Hunter {
     private int findItemInKit(String item) {
         for (int i = 0; i < kit.length; i++) {
             String tmpItem = kit[i];
-
             if (item.equals(tmpItem)) {
                 return i;
             }

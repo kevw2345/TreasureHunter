@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class TreasureHunter {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     // instance variables
+    Color gold = new Color(255, 215, 0);
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
@@ -50,7 +52,7 @@ public class TreasureHunter {
         String name = SCANNER.nextLine().toLowerCase();
 
         // set hunter instance variable
-        hunter = new Hunter(name, 0);
+        hunter = new Hunter(name, 20);
 
         System.out.print("Hard mode? (y/n): ");
         String hard = SCANNER.nextLine().toLowerCase();
@@ -123,6 +125,7 @@ public class TreasureHunter {
             System.out.println(Colors.CYAN + "(M)ove on to a different town.");
             System.out.println(Colors.RED + "(L)ook for trouble!");
             System.out.println(Colors.YELLOW + "(H)unt for treasure!");
+            System.out.println("\u001B[93m"+"(D)ig for gold"+"\u001B[0m");
             System.out.println(Colors.RESET + "Give up the hunt and e(X)it.");
             System.out.println();
             System.out.print("What's your next move? ");
@@ -153,6 +156,8 @@ public class TreasureHunter {
             if (hunter.treasuresFull()) {
                 endRun(); //the player gas won
             }
+        } else if(choice.equals("d")){
+            currentTown.digForGold();
         } else if (choice.equals("x")) {
             System.out.println("Fare thee well, " + hunter.getHunterName() + "!");
         } else {
