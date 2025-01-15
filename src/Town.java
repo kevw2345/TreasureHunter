@@ -123,6 +123,9 @@ public class Town {
         if (Math.random() > noTroubleChance) {
             printMessage = "You couldn't find any trouble";
         } else {
+            if(TreasureHunter.isEasyMode()){
+                noTroubleChance = ((int)(Math.random()*25)+1)/100.0;
+            }
             printMessage = Colors.RED + "You want trouble, stranger!  You got it!\nOof! Umph! Ow!\n";
             int goldDiff = (int) (Math.random() * 10) + 1;
             if (Math.random() > noTroubleChance) {
@@ -173,8 +176,12 @@ public class Town {
      * @return true if the item broke.
      */
     private boolean checkItemBreak() {
-        double rand = Math.random();
-        return (rand < 0.5);
+        if(TreasureHunter.isEasyMode()){
+            return false;
+        }else {
+            double rand = Math.random();
+            return (rand < 0.5);
+        }
     }
     /**
      * Allows the player to hunt for treasure.

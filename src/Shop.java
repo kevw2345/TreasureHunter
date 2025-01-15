@@ -66,6 +66,9 @@ public class Shop {
             if (cost == 0) {
                 System.out.println("We don't want none of those.");
             } else {
+                if(TreasureHunter.isEasyMode()){
+                    cost = getCostOfItem(item);
+                }
                 System.out.print("It'll get you " + cost + " gold. Sell it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
                 if (option.equals("y")) {
@@ -116,6 +119,9 @@ public class Shop {
      */
     public void sellItem(String item) {
         int buyBackPrice = checkMarketPrice(item, false);
+        if(TreasureHunter.isEasyMode()){
+            buyBackPrice = getCostOfItem(item);
+        }
         if (customer.sellItem(item, buyBackPrice)) {
             System.out.println("Pleasure doin' business with you.");
         } else {

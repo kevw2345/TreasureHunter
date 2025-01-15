@@ -18,6 +18,7 @@ public class TreasureHunter {
     private Town currentTown;
     private Hunter hunter;
     private boolean hardMode;
+    private static boolean easyMode;
     private boolean samuraiMode;
     private static boolean run = true;
 
@@ -33,6 +34,8 @@ public class TreasureHunter {
     }
 
     public static void endRun(){run = false;}
+
+    public static boolean isEasyMode(){return easyMode;}
 
     /**
      * Starts the game; this is the only public method
@@ -53,18 +56,23 @@ public class TreasureHunter {
         String name = SCANNER.nextLine().toLowerCase();
         int inventoryCapacity = 7; //by default, inventory capacity should be 7
 
-        // set hunter instance variable
-        hunter = new Hunter(name, 20);
-
-        System.out.print("Hard mode? (y/n): ");
+        System.out.print("Select game mode (e/n/h): ");
         String hard = SCANNER.nextLine().toLowerCase();
-        if (hard.equals("y")) {
+        if (hard.equals("h")) {
             hardMode = true;
-        } else if(hard.equals("test")){
+        } else if(hard.equals("e")){
+            easyMode = true;
+        }else if(hard.equals("test")){
             hunter.setTestMode(true);
         } else if (hard.equals("s")) {
             inventoryCapacity = 8; //+1 inventory capacity for the sword
             System.out.println("\n" + Colors.RED + "Samurai mode has been activated...");
+        }
+        // set hunter instance variable
+        if(easyMode){
+            hunter = new Hunter(name, 40);
+        }else {
+            hunter = new Hunter(name, 20);
         }
     }
 
