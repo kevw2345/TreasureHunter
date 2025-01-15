@@ -66,6 +66,7 @@ public class TreasureHunter {
             hunter.setTestMode(true);
         } else if (hard.equals("s")) {
             inventoryCapacity = 8; //+1 inventory capacity for the sword
+            samuraiMode = true;
             System.out.println("\n" + Colors.RED + "Samurai mode has been activated...");
         }
         // set hunter instance variable
@@ -93,7 +94,7 @@ public class TreasureHunter {
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
-        Shop shop = new Shop(markdown);
+        Shop shop = new Shop(markdown, samuraiMode);
 
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town
