@@ -62,8 +62,6 @@ public class TreasureHunter {
             hardMode = true;
         } else if(hard.equals("e")){
             easyMode = true;
-        }else if(hard.equals("test")){
-            hunter.setTestMode(true);
         } else if (hard.equals("s")) {
             inventoryCapacity = 8; //+1 inventory capacity for the sword
             samuraiMode = true;
@@ -71,9 +69,13 @@ public class TreasureHunter {
         }
         // set hunter instance variable
         if(easyMode){
-            hunter = new Hunter(name, 40);
+            hunter = new Hunter(name, 40, inventoryCapacity);
         }else {
-            hunter = new Hunter(name, 20);
+            hunter = new Hunter(name, 20, inventoryCapacity);
+        }
+        //set test mode
+        if (hard.equals("test")) {
+            hunter.setTestMode(true);
         }
     }
 
