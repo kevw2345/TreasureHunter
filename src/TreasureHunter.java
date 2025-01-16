@@ -1,4 +1,7 @@
+import java.awt.*;
+import java.sql.SQLOutput;
 import java.util.Scanner;
+
 /**
  * This class is responsible for controlling the Treasure Hunter game.<p>
  * It handles the display of the menu and the processing of the player's choices.<p>
@@ -6,7 +9,8 @@ import java.util.Scanner;
  *
  * This code has been adapted from Ivan Turner's original program -- thank you Mr. Turner!
  */
-public class TreasureHunter{
+
+public class TreasureHunter {
     // static variables
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -59,17 +63,20 @@ public class TreasureHunter{
             hardMode = true;
         } else if(hard.equals("e")){
             easyMode = true;
-        }else if(hard.equals("test")){
-            hunter.setTestMode(true);
         } else if (hard.equals("s")) {
             inventoryCapacity = 8; //+1 inventory capacity for the sword
+            samuraiMode = true;
             window.addTextToWindow("\n"+"\n" + Colors.RED + "Samurai mode has been activated...");
         }
         // set hunter instance variable
         if(easyMode){
-            hunter = new Hunter(name, 40);
+            hunter = new Hunter(name, 40, inventoryCapacity);
         }else {
-            hunter = new Hunter(name, 20);
+            hunter = new Hunter(name, 20, inventoryCapacity);
+        }
+        //set test mode
+        if (hard.equals("test")) {
+            hunter.setTestMode(true);
         }
     }
 
@@ -90,7 +97,7 @@ public class TreasureHunter{
         // note that we don't need to access the Shop object
         // outside of this method, so it isn't necessary to store it as an instance
         // variable; we can leave it as a local variable
-        Shop shop = new Shop(markdown, window);
+        Shop shop = new Shop(markdown, window, samuraiMode);
 
         // creating the new Town -- which we need to store as an instance
         // variable in this class, since we need to access the Town

@@ -9,6 +9,7 @@ import java.awt.Color;
 
 public class Shop {
     // constants
+    private static final int SWORD_COST = 0;
     private static final int WATER_COST = 2;
     private static final int ROPE_COST = 4;
     private static final int MACHETE_COST = 6;
@@ -23,6 +24,7 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
+    private boolean sword;
     private OutputWindow window;
 
     /**
@@ -30,8 +32,9 @@ public class Shop {
      *
      * @param markdown Percentage of markdown for selling items in decimal format.
      */
-    public Shop(double markdown, OutputWindow win) {
+    public Shop(double markdown, OutputWindow win, boolean sword) {
         this.markdown = markdown;
+        this.sword = sword; //determines if the sword can be sold
         customer = null; // customer is set in the enter method
         window = win;
     }
@@ -52,9 +55,18 @@ public class Shop {
             System.out.print("What're you lookin' to buy? ");
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
-            if (cost == 0) {
+            if (cost < 0) {
                 window.addTextToWindow("\n"+"We ain't got none of those.");
             } else {
+                if (item.equals("sword")) {
+                    System.out.println(Colors.PURPLE + "\nStrange, where'd that little thing come from... That sword's givin' me the creeps.");
+                    System.out.println("I'm feelin' polite. Have it for free.\n" + Colors.RESET);
+                }
+                if (customer.hasItemInKit("sword")) {
+                    System.out.println(Colors.RED + "*The shopkeeper seems intimidated by your sword.*");
+                    System.out.println(Colors.RESET + "Ye' can have it fer free. It's on the house.");
+                    cost = 0;
+                }
                 System.out.print("It'll cost you " + cost + " gold. Buy it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
                 if (option.equals("y")) {
@@ -66,7 +78,7 @@ public class Shop {
             System.out.print("You currently have the following items: " + customer.getInventory());
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, false);
-            if (cost == 0) {
+            if (cost < 0) {
                 window.addTextToWindow("\n"+"We don't want none of those.");
             } else {
                 if(TreasureHunter.isEasyMode()){
@@ -96,8 +108,11 @@ public class Shop {
         str += Colors.RESET + "Shovel: " + Colors.YELLOW + SHOVEL_COST + " gold\n";
         str += Colors.RESET + "Horse: " + Colors.YELLOW + HORSE_COST + " gold\n";
         str += Colors.RESET + "Boots: " + Colors.YELLOW + BOOTS_COST + " gold\n";
-        str += Colors.RESET + "Boat: " + Colors.YELLOW + BOAT_COST + " gold\n"
-        + Colors.RESET;
+        str += Colors.RESET + "Boat: " + Colors.YELLOW + BOAT_COST + " gold\n";
+        if (sword) {
+            str += Colors.RED + "Sword: " + Colors.YELLOW + SWORD_COST + " gold\n";
+        }
+        str += Colors.RESET;
         return str;
     }
 
@@ -168,8 +183,10 @@ public class Shop {
             return BOOTS_COST;
         }else if (item.equals("boat")) {
             return BOAT_COST;
+        } else if (item.equals("sword") && sword) {
+            return SWORD_COST;
         } else {
-            return 0;
+            return -100;
         }
     }
 
