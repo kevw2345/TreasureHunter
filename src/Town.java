@@ -1,3 +1,4 @@
+import java.awt.Color;
 /**
  * The Town Class is where it all happens.
  * The Town is designed to manage all the things a Hunter can do in town.
@@ -16,6 +17,7 @@ public class Town {
     private String treasure;
     private boolean isSearched;
     private boolean isDug;
+    private OutputWindow window;
 
     /**
      * The Town Constructor takes in a shop and the surrounding terrain, but leaves the hunter as null until one arrives.
@@ -23,7 +25,8 @@ public class Town {
      * @param shop The town's shoppe.
      * @param toughness The surrounding terrain.
      */
-    public Town(Shop shop, double toughness) {
+    public Town(Shop shop, double toughness, OutputWindow win) {
+        window = win;
         this.shop = shop;
         this.terrain = getNewTerrain();
 
@@ -193,26 +196,26 @@ public class Town {
      * */
     public boolean huntForTreasure() {
         if (isSearched == true) { //return early if town was already searched
-            System.out.println("You have already searched this town for treasure.");
+            window.addTextToWindow("\n"+"You have already searched this town for treasure.");
             return false;
         }
         isSearched = true;
-        System.out.println("You found a " + Colors.YELLOW + treasure + Colors.RESET +"!");
+        window.addTextToWindow("\n"+"You found a " + Colors.YELLOW + treasure + Colors.RESET +"!");
         //if the treasure is dust, don't add it to the player's treasures
         if (treasure.equals("dust")) {
-            System.out.println("But you don't need that...");
+            window.addTextToWindow("\n"+"But you don't need that...");
             return false;
         } else {
             int status = hunter.addTreasure(treasure);
             switch (status) {
                 case 0:
-                    System.out.println("What a neat thing to find!");
+                    window.addTextToWindow("\n"+"What a neat thing to find!");
                     return true;
                 case 1: //item already in inventory
-                    System.out.println("But you already have one.");
+                    window.addTextToWindow("\n"+"But you already have one.");
                     return false;
                 case 2:
-                    System.out.println("But there's not enough space to keep that.");
+                    window.addTextToWindow("\n"+"But there's not enough space to keep that.");
                     return false;
             }
         }
@@ -222,19 +225,19 @@ public class Town {
 
     public void digForGold(){
         if(isDug){
-            System.out.println(Colors.YELLOW+"You already dug for gold in this town."+Colors.RESET);
+            window.addTextToWindow("\n"+Colors.YELLOW+"You already dug for gold in this town."+Colors.RESET);
         }else if(hunter.hasItemInKit("shovel")){
             isDug = true;
             double rand = Math.random();
             if(rand<.5){
                 int goldFound = (int)(Math.random()*20)+1;
-                System.out.println(Colors.GREEN+"You dug up "+"\u001B[93m"+goldFound+Colors.GREEN+" gold!"+Colors.RESET);
+                window.addTextToWindow("\n"+Colors.GREEN+"You dug up "+"\u001B[93m"+goldFound+Colors.GREEN+" gold!"+Colors.RESET);
                 hunter.changeGold(goldFound);
             }else{
-                System.out.println(Colors.YELLOW+"You dug but only found dirt"+Colors.RESET);
+                window.addTextToWindow("\n"+Colors.YELLOW+"You dug but only found dirt"+Colors.RESET);
             }
         }else{
-            System.out.println(Colors.YELLOW+"You can't dig for gold without a shovel"+Colors.RESET);
+            window.addTextToWindow("\n"+Colors.YELLOW+"You can't dig for gold without a shovel"+Colors.RESET);
         }
     }
 

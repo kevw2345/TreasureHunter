@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.awt.Color;
 
 /**
  * The Shop class controls the cost of the items in the Treasure Hunt game. <p>
@@ -22,15 +23,17 @@ public class Shop {
     // instance variables
     private double markdown;
     private Hunter customer;
+    private OutputWindow window;
 
     /**
      * The Shop constructor takes in a markdown value and leaves customer null until one enters the shop.
      *
      * @param markdown Percentage of markdown for selling items in decimal format.
      */
-    public Shop(double markdown) {
+    public Shop(double markdown, OutputWindow win) {
         this.markdown = markdown;
         customer = null; // customer is set in the enter method
+        window = win;
     }
 
     /**
@@ -43,14 +46,14 @@ public class Shop {
     public String enter(Hunter hunter, String buyOrSell) {
         customer = hunter;
         if (buyOrSell.equals("b")) {
-            System.out.println("Welcome to the shop! We have the finest wares in town.");
-            System.out.println("Currently we have the following items:");
-            System.out.println(inventory());
+            window.addTextToWindow("\n"+"Welcome to the shop! We have the finest wares in town.");
+            window.addTextToWindow("\n"+"Currently we have the following items:");
+            window.addTextToWindow("\n"+inventory());
             System.out.print("What're you lookin' to buy? ");
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
             if (cost == 0) {
-                System.out.println("We ain't got none of those.");
+                window.addTextToWindow("\n"+"We ain't got none of those.");
             } else {
                 System.out.print("It'll cost you " + cost + " gold. Buy it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
@@ -59,12 +62,12 @@ public class Shop {
                 }
             }
         } else {
-            System.out.println("What're you lookin' to sell? ");
+            window.addTextToWindow("\n"+"What're you lookin' to sell? ");
             System.out.print("You currently have the following items: " + customer.getInventory());
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, false);
             if (cost == 0) {
-                System.out.println("We don't want none of those.");
+                window.addTextToWindow("\n"+"We don't want none of those.");
             } else {
                 if(TreasureHunter.isEasyMode()){
                     cost = getCostOfItem(item);
@@ -106,9 +109,9 @@ public class Shop {
     public void buyItem(String item) {
         int costOfItem = checkMarketPrice(item, true);
         if (customer.buyItem(item, costOfItem)) {
-            System.out.println("Ye' got yerself a " + item + ". Come again soon.");
+            window.addTextToWindow("\n"+"Ye' got yerself a " + item + ". Come again soon.");
         } else {
-            System.out.println("Hmm, either you don't have enough gold or you've already got one of those!");
+            window.addTextToWindow("\n"+"Hmm, either you don't have enough gold or you've already got one of those!");
         }
     }
 
@@ -123,9 +126,9 @@ public class Shop {
             buyBackPrice = getCostOfItem(item);
         }
         if (customer.sellItem(item, buyBackPrice)) {
-            System.out.println("Pleasure doin' business with you.");
+            window.addTextToWindow("\n"+"Pleasure doin' business with you.");
         } else {
-            System.out.println("Stop stringin' me along!");
+            window.addTextToWindow("\n"+"Stop stringin' me along!");
         }
     }
 
