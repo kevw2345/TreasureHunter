@@ -1,6 +1,6 @@
 import java.awt.*;
-import java.sql.SQLOutput;
 import java.util.Scanner;
+import java.awt.Color;
 
 /**
  * This class is responsible for controlling the Treasure Hunter game.<p>
@@ -53,11 +53,11 @@ public class TreasureHunter {
     private void welcomePlayer() {
         window.addTextToWindow("\n"+"Welcome to TREASURE HUNTER!");
         window.addTextToWindow("\n"+"Going hunting for the big treasure, eh?");
-        window.addTextToWindow("What's your name, Hunter? ");
+        window.addTextToWindow("\nWhat's your name, Hunter? ");
         String name = SCANNER.nextLine().toLowerCase();
         int inventoryCapacity = 7; //by default, inventory capacity should be 7
 
-        window.addTextToWindow("Select game mode (e/n/h): ");
+        window.addTextToWindow("\nSelect game mode (e/n/h): ");
         String hard = SCANNER.nextLine().toLowerCase();
         if (hard.equals("h")) {
             hardMode = true;
@@ -66,18 +66,19 @@ public class TreasureHunter {
         } else if (hard.equals("s")) {
             inventoryCapacity = 8; //+1 inventory capacity for the sword
             samuraiMode = true;
-            window.addTextToWindow("\n"+"\n" + Colors.RED + "Samurai mode has been activated...");
+            window.addTextToWindow("\n\nSamurai mode has been activated...",Colors.red);
         }
         // set hunter instance variable
         if(easyMode){
-            hunter = new Hunter(name, 40, inventoryCapacity);
+            hunter = new Hunter(name, 40, inventoryCapacity, window);
         }else {
-            hunter = new Hunter(name, 20, inventoryCapacity);
+            hunter = new Hunter(name, 20, inventoryCapacity, window);
         }
         //set test mode
         if (hard.equals("test")) {
             hunter.setTestMode(true);
         }
+        window.clear();
     }
 
     /**
@@ -123,28 +124,28 @@ public class TreasureHunter {
                 if (hunter.treasuresFull()) {
                     window.addTextToWindow("\n"+"Wow, you've found every treasure in this realm!");
                     window.addTextToWindow("\n");
-                    window.addTextToWindow("\n"+Colors.CYAN + "You return home, riches and treasure in hand. You leave your trusty shovel by the door, curling up into your chair by the fireplace.");
+                    window.addTextToWindow("\nYou return home, riches and treasure in hand. You leave your trusty shovel by the door, curling up into your chair by the fireplace.",Colors.cyan);
                     window.addTextToWindow("\n"+"But one day, perhaps more treasures will arise, waiting to be found by a brave adventurer...");
-                    window.addTextToWindow("\n"+Colors.WHITE + "\n\nTHE END" + Colors.RESET);
+                    window.addTextToWindow("\n\n\nTHE END",Colors.green);
                 } else {
-                    window.addTextToWindow("\n"+Colors.RED + "\nYou didn't have enough gold to pay off your losses, and you lose the game.");
+                    window.addTextToWindow("\n\nYou didn't have enough gold to pay off your losses, and you lose the game.",Colors.red);
                 }
                 break;
             }
-            window.clear();
-            window.addTextToWindow("\n");
             window.addTextToWindow("\n"+currentTown.getLatestNews());
-            window.addTextToWindow("\n"+"***");
-            window.addTextToWindow("\n"+hunter.infoString());
-            window.addTextToWindow("\n"+currentTown.infoString());
-            window.addTextToWindow("\n"+Colors.PURPLE + "(B)uy something at the shop.");
-            window.addTextToWindow("\n"+Colors.GREEN +  "(S)ell something at the shop.");
-            window.addTextToWindow("\n"+Colors.BLUE + "(E)xplore surrounding terrain.");
-            window.addTextToWindow("\n"+Colors.CYAN + "(M)ove on to a different town.");
-            window.addTextToWindow("\n"+Colors.RED + "(L)ook for trouble!");
-            window.addTextToWindow("\n"+Colors.YELLOW + "(H)unt for treasure!");
-            window.addTextToWindow("\n"+"\u001B[93m"+"(D)ig for gold"+"\u001B[0m");
-            window.addTextToWindow("\n"+Colors.RESET + "Give up the hunt and e(X)it.");
+            window.addTextToWindow("\n"+"**********");
+            window.addTextToWindow("\n");
+            hunter.infoString();
+            window.addTextToWindow("\n\n");
+            currentTown.infoString();
+            window.addTextToWindow("\n\n(B)uy something at the shop.",Colors.purple);
+            window.addTextToWindow("\n(S)ell something at the shop.",Colors.green);
+            window.addTextToWindow("\n(E)xplore surrounding terrain.",Colors.blue);
+            window.addTextToWindow("\n(M)ove on to a different town.",Colors.cyan);
+            window.addTextToWindow("\n(L)ook for trouble!",Colors.red);
+            window.addTextToWindow("\n(H)unt for treasure!",Colors.yellow);
+            window.addTextToWindow("\n(D)ig for gold",Colors.brightYellow);
+            window.addTextToWindow("\nGive up the hunt and e(X)it.");
             window.addTextToWindow("\n");
             window.addTextToWindow("What's your next move? ");
             choice = SCANNER.nextLine().toLowerCase();
@@ -158,6 +159,7 @@ public class TreasureHunter {
      * @param choice The action to process.
      */
     private void processChoice(String choice) {
+        window.clear();
         if (choice.equals("b") || choice.equals("s")) {
             currentTown.enterShop(choice);
         } else if (choice.equals("e")) {
@@ -179,6 +181,7 @@ public class TreasureHunter {
             currentTown.digForGold();
         } else if (choice.equals("x")) {
             window.addTextToWindow("\n"+"Fare thee well, " + hunter.getHunterName() + "!");
+            window.addTextToWindow("\n\n\n"+"Close this window to exit.");
         } else {
             window.addTextToWindow("\n"+"Yikes! That's an invalid option! Try again.");
         }

@@ -14,8 +14,8 @@ public class OutputWindow {
     public OutputWindow() {
         JFrame frame = new JFrame("Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // causes program to end when window is X'd out
-        frame.setSize(500, 400); // window size
-        frame.setLocation(300, 50); // where on screen window appears
+        frame.setSize(500, 900); // window size
+        frame.setLocation(1100, 0); // where on screen window appears
         textPane = new JTextPane(); // panel that can handle custom text
         textPane.setEditable(false); // prevents user from typing into window
         doc = textPane.getStyledDocument(); // call getter method for panel's style doc
@@ -23,9 +23,11 @@ public class OutputWindow {
         StyleConstants.setFontSize(style, 25); // apply font size to custom style
         frame.add(textPane); // add the panel to the frame
         frame.setVisible(true); // display the frame on screen
+        frame.setBackground(Colors.gray);
     }
 
     public void addTextToWindow(String text, Color color) {
+        textPane.setBackground(Colors.gray);
         StyleConstants.setForeground(style, color); // apply color to custom style
         try {
             doc.insertString(doc.getLength(), text, style); } // insert text at end the panel
@@ -33,6 +35,7 @@ public class OutputWindow {
     }
 
         public void addTextToWindow(String text) {
+        textPane.setBackground(Colors.gray);
         StyleConstants.setForeground(style, Color.black); // apply color to custom style
         try {
             doc.insertString(doc.getLength(), text, style); } // insert text at end the panel
@@ -41,5 +44,6 @@ public class OutputWindow {
 
     public void clear() {
         textPane.setText("");  // set panel's text to empty string to "reset it"
+        textPane.setBackground(Colors.gray);
     }
 }

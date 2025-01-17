@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.awt.Color;
 
 /**
  * The Shop class controls the cost of the items in the Treasure Hunt game. <p>
@@ -49,48 +48,50 @@ public class Shop {
     public String enter(Hunter hunter, String buyOrSell) {
         customer = hunter;
         if (buyOrSell.equals("b")) {
-            window.addTextToWindow("\n"+"Welcome to the shop! We have the finest wares in town.");
-            window.addTextToWindow("\n"+"Currently we have the following items:");
-            window.addTextToWindow("\n"+inventory());
-            System.out.print("What're you lookin' to buy? ");
+            window.addTextToWindow("\nWelcome to the shop! We have the finest wares in town.");
+            window.addTextToWindow("\nCurrently we have the following items:");
+            inventory();
+            window.addTextToWindow("What're you lookin' to buy? ");
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, true);
             if (cost < 0) {
-                window.addTextToWindow("\n"+"We ain't got none of those.");
+                window.addTextToWindow("\nWe ain't got none of those.");
             } else {
                 if (item.equals("sword")) {
-                    System.out.println(Colors.PURPLE + "\nStrange, where'd that little thing come from... That sword's givin' me the creeps.");
-                    System.out.println("I'm feelin' polite. Have it for free.\n" + Colors.RESET);
+                    window.addTextToWindow("\n\nStrange, where'd that little thing come from... That sword's givin' me the creeps.",Colors.purple);
+                    window.addTextToWindow("\nI'm feelin' polite. Have it for free.\n");
                 }
                 if (customer.hasItemInKit("sword")) {
-                    System.out.println(Colors.RED + "*The shopkeeper seems intimidated by your sword.*");
-                    System.out.println(Colors.RESET + "Ye' can have it fer free. It's on the house.");
+                    window.addTextToWindow("\n*The shopkeeper seems intimidated by your sword.*",Colors.red);
+                    window.addTextToWindow("\nYe' can have it fer free. It's on the house.");
                     cost = 0;
                 }
-                System.out.print("It'll cost you " + cost + " gold. Buy it (y/n)? ");
+                window.addTextToWindow("It'll cost you " + cost + " gold. Buy it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
                 if (option.equals("y")) {
                     buyItem(item);
                 }
             }
         } else {
-            window.addTextToWindow("\n"+"What're you lookin' to sell? ");
-            System.out.print("You currently have the following items: " + customer.getInventory());
+            window.addTextToWindow("\nWhat're you lookin' to sell? ");
+            window.addTextToWindow("You currently have the following items: ");
+            customer.getInventory();
             String item = SCANNER.nextLine().toLowerCase();
             int cost = checkMarketPrice(item, false);
             if (cost < 0) {
-                window.addTextToWindow("\n"+"We don't want none of those.");
+                window.addTextToWindow("\nWe don't want none of those.");
             } else {
                 if(TreasureHunter.isEasyMode()){
                     cost = getCostOfItem(item);
                 }
-                System.out.print("It'll get you " + cost + " gold. Sell it (y/n)? ");
+                window.addTextToWindow("\nIt'll get you " + cost + " gold. Sell it (y/n)? ");
                 String option = SCANNER.nextLine().toLowerCase();
                 if (option.equals("y")) {
                     sellItem(item);
                 }
             }
         }
+        window.clear();
         return "You left the shop";
     }
 
@@ -100,20 +101,18 @@ public class Shop {
      *
      * @return the string representing the shop's items available for purchase and their prices.
      */
-    public String inventory() {
-        String str = "";
-        str += Colors.RESET + "Water: " + Colors.YELLOW + WATER_COST + " gold\n";
-        str += Colors.RESET + "Rope: " + Colors.YELLOW +  ROPE_COST + " gold\n";
-        str += Colors.RESET + "Machete: " + Colors.YELLOW + MACHETE_COST + " gold\n";
-        str += Colors.RESET + "Shovel: " + Colors.YELLOW + SHOVEL_COST + " gold\n";
-        str += Colors.RESET + "Horse: " + Colors.YELLOW + HORSE_COST + " gold\n";
-        str += Colors.RESET + "Boots: " + Colors.YELLOW + BOOTS_COST + " gold\n";
-        str += Colors.RESET + "Boat: " + Colors.YELLOW + BOAT_COST + " gold\n";
+    public void inventory() {
+        window.addTextToWindow("\n");
+        window.addTextToWindow("Water: "); window.addTextToWindow(WATER_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Rope: "); window.addTextToWindow(ROPE_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Machete:"); window.addTextToWindow(MACHETE_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Shovel: "); window.addTextToWindow(SHOVEL_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Horse: "); window.addTextToWindow(HORSE_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Boots: "); window.addTextToWindow(BOOTS_COST + " gold\n",Colors.yellow);
+        window.addTextToWindow("Boat: "); window.addTextToWindow(BOAT_COST + " gold\n",Colors.yellow);
         if (sword) {
-            str += Colors.RED + "Sword: " + Colors.YELLOW + SWORD_COST + " gold\n";
+            window.addTextToWindow("Sword: ",Colors.red);window.addTextToWindow(SWORD_COST + " gold\n",Colors.yellow);
         }
-        str += Colors.RESET;
-        return str;
     }
 
     /**
@@ -124,9 +123,9 @@ public class Shop {
     public void buyItem(String item) {
         int costOfItem = checkMarketPrice(item, true);
         if (customer.buyItem(item, costOfItem)) {
-            window.addTextToWindow("\n"+"Ye' got yerself a " + item + ". Come again soon.");
+            window.addTextToWindow("\nYe' got yerself a " + item + ". Come again soon.");
         } else {
-            window.addTextToWindow("\n"+"Hmm, either you don't have enough gold or you've already got one of those!");
+            window.addTextToWindow("\nHmm, either you don't have enough gold or you've already got one of those!");
         }
     }
 
@@ -141,9 +140,9 @@ public class Shop {
             buyBackPrice = getCostOfItem(item);
         }
         if (customer.sellItem(item, buyBackPrice)) {
-            window.addTextToWindow("\n"+"Pleasure doin' business with you.");
+            window.addTextToWindow("\nPleasure doin' business with you.");
         } else {
-            window.addTextToWindow("\n"+"Stop stringin' me along!");
+            window.addTextToWindow("\nStop stringin' me along!");
         }
     }
 
